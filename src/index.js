@@ -1327,18 +1327,19 @@ class MiniCssExtractPlugin {
           source.add(`@media ${m.media} {\n`);
         }
 
-        let publicPath = chunk.name
-          ? `${
-              path.relative(
-                path.dirname(
-                  typeof filenameTemplate === 'string'
-                    ? filenameTemplate.replace(/\[name\]/g, chunk.name)
-                    : ''
-                ),
-                ''
-              ) || '.'
-            }/`
-          : '';
+        let publicPath = `${
+          path.relative(
+            path.dirname(
+              typeof filenameTemplate === 'string'
+                ? filenameTemplate
+                    .replace(/\[name\]/g, chunk.name || chunk.id)
+                    .replace(/\[id\]/g, chunk.id)
+                : ''
+            ),
+            ''
+          ) || '.'
+        }/`
+
         if (publicPath.startsWith('./')) {
           publicPath = publicPath.substring(2);
         }
